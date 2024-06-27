@@ -1,4 +1,10 @@
+import { initBuffers } from "./init-buffers.js";
+import { drawScene } from "./draw-scene.js";
+
 main();
+
+let squareRotation = 0.0;
+let deltaTime = 0;
 
 //
 // start here
@@ -25,16 +31,24 @@ function main() {
     // Vertex shader program
     const vsSource = `
         attribute vec4 aVertexPosition;
+        attribute vec4 aVertexColor;
+
         uniform mat4 uModelViewMatrix;
         uniform mat4 uProjectionMatrix;
-        void main() {
-        gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+
+        varying lowp vec4 vColor;
+
+        void main(void) {
+            gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+            vColor = aVertexColor;
         }
     `;
 
     const fsSource = `
-        void main() {
-        gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+        varying lowp vec4 vColor;
+
+        void main(void) {
+            gl_FragColor = vColor;
         }
     `;
     // Initialize a shader program; this is where all the lighting
@@ -48,12 +62,34 @@ function main() {
         program: shaderProgram,
         attribLocations: {
             vertexPosition: gl.getAttribLocation(shaderProgram, "aVertexPosition"),
+            vertexColor: gl.getAttribLocation(shaderProgram, "aVertexColor")
         },
         uniformLocations: {
             projectionMatrix: gl.getUniformLocation(shaderProgram, "uProjectionMatrix"),
             modelViewMatrix: gl.getUniformLocation(shaderProgram, "uModelViewMatrix"),
         },
     };
+
+    // Here's where we call the routine that builds all the
+    // objects we'll be drawing.let then = 0;
+    const buffers = initBuffers(gl);
+
+    let then = 0;
+
+    // Draw the scene repeatedly
+    function render(now) {
+        now *= 0.001; // convert to seconds
+        deltaTime = now - then;
+        then = now;
+    
+        drawScene(gl, programInfo, buffers, squareRotation);
+        squareRotation += deltaTime;
+    
+        requestAnimationFrame(render);
+    }
+
+    requestAnimationFrame(render);
+  
   
 }
 
@@ -112,4 +148,3 @@ function loadShader(gl, type, source) {
 
     return shader;
 }
-  
