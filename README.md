@@ -4,7 +4,7 @@
 
 This project demonstrates a 3D animated cube model created using WebGL. The cube features stylized cartoon illustrations on each face, showcasing the integration of 2D artwork with 3D modeling and web-based rendering techniques.
 
-![Cartoon Cube Preview](assets/cube_preview.png)
+![Cartoon Cube Preview](assets/cube_preview.mp4)
 
 ## Features
 
