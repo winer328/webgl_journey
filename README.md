@@ -24,11 +24,11 @@ This project demonstrates a 3D animated cube model created using WebGL. The cube
 
 1. Clone the repository: 
 
-git clone https://github.com/winer328/webgl_journey.git
+`git clone https://github.com/winer328/webgl_journey.git`
 
 2. Navigate to the project directory:
 
-cd webgl_journey
+`cd webgl_journey`
 
 3. Open `index.html` in a modern web browser that supports WebGL.
 
